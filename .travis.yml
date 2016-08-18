@@ -15,12 +15,14 @@ env:
 before_install:
   - docker pull ${DIST_NAME}:${DIST_VERS}
   - docker build --rm=true --file=ci/DockerFile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} .
-  - docker run ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash
+  - docker run --name ${TAG} -d ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash
 
 script:
-  - hostname
-  - ls
-  - make
+  - docker exec -d ${TAG} hostname
+  - docker exec -d ${TAG} ls
+  - docker exec -d ${TAG} echo '22' > test
+  - docker cp /workdir/test .
+  - cat test
   #- DOCKER_ID_FILE=$(mktemp)
   #- docker run -d ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash > "${DOCKER_ID_FILE}"
   #- DOCKER_ID=$(cat ${DOCKER_ID_FILE})
