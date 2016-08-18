@@ -16,8 +16,10 @@ before_install:
   - docker pull ${DIST_NAME}:${DIST_VERS}
   - docker build --rm=true --file=ci/DockerFile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} .
   - docker run --name ${TAG} -d ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash
+  - docker ps -a
 
 script:
+  - docker ps -a
   - docker exec -d ${TAG} hostname
   - docker exec -d ${TAG} ls
   - docker exec -d ${TAG} echo '22' > test
