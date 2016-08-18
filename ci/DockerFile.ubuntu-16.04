@@ -17,3 +17,5 @@ RUN apt-get install -qq cmake gcc libcunit1-dev libudev-dev
 RUN mkdir -p /workdir
 WORKDIR /workdir
 COPY . ../
+RUN make
+RUN make pkg
