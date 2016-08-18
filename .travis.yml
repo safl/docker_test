@@ -23,9 +23,9 @@ script:
   - DOCKER_ID=$(mktemp)
   - docker run --detach ${DIST_NAME}-${DIST_VERS}:${TAG} > "${DOCKER_ID}"
   - docker ps
-  - docker run ${DIST_NAME}-${DIST_VERS}:{TAG} /bin/bash -c "ls"
-  - docker run ${DIST_NAME}-${DIST_VERS}:{TAG} /bin/bash -c "hostname"
-  - docker run ${DIST_NAME}-${DIST_VERS}:{TAG} /bin/bash -c "echo '$RANDOM' > test"
+  - docker run ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash -c "ls"
+  - docker run ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash -c "hostname"
+  - docker run ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash -c "echo '$RANDOM' > test"
   - docker ps
   - docker cp ${DOCKER_ID}:/workdir/test /tmp/test
   - docker ps
