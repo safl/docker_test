@@ -17,7 +17,7 @@ services:
 
 before_install:
   - docker pull ${DIST_NAME}:${DIST_VERS}
-  - docker build --rm=true --file=ci/DockerFile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} ci
+  - docker build --rm=true --file=ci/DockerFile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} .
 
 script:
   - DOCKER_ID=$(mktemp)
