@@ -1,0 +1,25 @@
+sudo: required
+
+env:
+  - DIST_NAME: ubuntu
+    DIST_VERS: 16.04
+  - DIST_NAME: ubuntu
+    DIST_VERS: 14.04
+  - DIST_NAME: ubuntu
+    DIST_VERS: 12.04
+
+services:
+  - docker
+
+before_install:
+  # Pull container
+  - sudo docker pull ${DIST_NAME}:${DIST_VERS}
+  # Customize container
+  - sudo docker build --rm=true --file=ci/Dockerfile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:liblightnvm ci
+
+script:
+  - DOCKER_ID=$(mktemp)
+  # Run container in detached state
+  - sudo docker run --detach ${DIST_NAME}-${DIST_VERS}:liblightnvm > "${DOCKER_ID}"
+  # Clean up
+  - sudo docker stop "$(cat ${DOCKER_ID})"
