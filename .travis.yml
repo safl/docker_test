@@ -6,6 +6,7 @@ services:
 env:
   - DIST_NAME: ubuntu
     DIST_VERS: 16.04
+    TAG: liblightnvm
 #  - DIST_NAME: ubuntu
 #    DIST_VERS: 14.04
 #  - DIST_NAME: ubuntu
@@ -15,10 +16,13 @@ services:
   - docker
 
 before_install:
-  - sudo docker pull ${DIST_NAME}:${DIST_VERS}
-  - sudo docker build --rm=true --file=ci/DockerFile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:liblightnvm ci
+  - docker pull ${DIST_NAME}:${DIST_VERS}
+  - docker build --rm=true --file=ci/DockerFile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} ci
 
 script:
   - DOCKER_ID=$(mktemp)
-  - sudo docker run --detach ${DIST_NAME}-${DIST_VERS}:liblightnvm > "${DOCKER_ID}"
-  - sudo docker stop "$(cat ${DOCKER_ID})"
+  - docker run --detach ${DIST_NAME}-${DIST_VERS}:${TAG} > "${DOCKER_ID}"
+  - docker ps
+  - docker run ${DIST_NAME}-${DIST_VERS}:{TAG} /bin/bash -c "ls"
+  - docker run ${DIST_NAME}-${DIST_VERS}:{TAG} /bin/bash -c "hostname"
+  - docker stop "$(cat ${DOCKER_ID})"
