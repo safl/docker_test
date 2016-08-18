@@ -6,10 +6,10 @@ services:
 env:
   - DIST_NAME: ubuntu
     DIST_VERS: 16.04
-  - DIST_NAME: ubuntu
-    DIST_VERS: 14.04
-  - DIST_NAME: ubuntu
-    DIST_VERS: 12.04
+#  - DIST_NAME: ubuntu
+#    DIST_VERS: 14.04
+#  - DIST_NAME: ubuntu
+#    DIST_VERS: 12.04
 
 services:
   - docker
