@@ -15,18 +15,19 @@ env:
 before_install:
   - docker pull ${DIST_NAME}:${DIST_VERS}
   - docker build --rm=true --file=ci/DockerFile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} .
-  - docker run --name ${TAG} -d -t ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash
+  - docker run --name ${TAG} -d -t ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash > container.id
   - docker ps -a
   - docker exec -t ${TAG} hostname
   - docker exec -t ${TAG} uname -a
   - docker exec -t ${TAG} cat /etc/lsb-release
 
 script:
+  - CONTAINER_ID=$(cat container.id)
   - docker ps -a
   - docker exec -t ${TAG} hostname
   - docker exec -t ${TAG} ls
   - docker exec -t ${TAG} echo '22' > test
-  - docker cp /workdir/test .
+  - docker cp ${CONTAINER_ID}:/workdir/test .
   - cat test
   #- DOCKER_ID_FILE=$(mktemp)
   #- docker run -d ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash > "${DOCKER_ID_FILE}"
