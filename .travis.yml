@@ -18,6 +18,8 @@ before_install:
   - docker run --name ${TAG} -d -t ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash
   - docker ps -a
   - docker exec -t ${TAG} hostname
+  - docker exec -t ${TAG} uname -a
+  - docker exec -t ${TAG} cat /etc/lsb-release
 
 script:
   - docker ps -a
