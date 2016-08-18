@@ -21,9 +21,9 @@ before_install:
 
 script:
   - docker ps -a
-  - docker exec -d ${TAG} hostname
-  - docker exec -d ${TAG} ls
-  - docker exec -d ${TAG} echo '22' > test
+  - docker exec -t ${TAG} hostname
+  - docker exec -t ${TAG} ls
+  - docker exec -t ${TAG} echo '22' > test
   - docker cp /workdir/test .
   - cat test
   #- DOCKER_ID_FILE=$(mktemp)
