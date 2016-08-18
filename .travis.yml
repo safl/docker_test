@@ -26,6 +26,8 @@ script:
   - docker run ${DIST_NAME}-${DIST_VERS}:{TAG} /bin/bash -c "ls"
   - docker run ${DIST_NAME}-${DIST_VERS}:{TAG} /bin/bash -c "hostname"
   - docker run ${DIST_NAME}-${DIST_VERS}:{TAG} /bin/bash -c "echo '$RANDOM' > test"
+  - docker ps
   - docker cp ${DOCKER_ID}:/workdir/test /tmp/test
+  - docker ps
   - cat /tmp/test
   - docker stop "$(cat ${DOCKER_ID})"
