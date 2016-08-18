@@ -17,6 +17,7 @@ before_install:
   - docker build --rm=true --file=ci/DockerFile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} .
   - docker run --name ${TAG} -d ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash
   - docker ps -a
+  - docker exec -d ${TAG} hostname
 
 script:
   - docker ps -a
