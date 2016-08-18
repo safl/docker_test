@@ -15,20 +15,18 @@ env:
 before_install:
   - docker pull ${DIST_NAME}:${DIST_VERS}
   - docker build --rm=true --file=ci/DockerFile.${DIST_NAME}-${DIST_VERS} --tag=${DIST_NAME}-${DIST_VERS}:${TAG} .
+  - docker run ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash
 
 script:
-  - DOCKER_ID_FILE=$(mktemp)
-  - docker run --detach ${DIST_NAME}-${DIST_VERS}:${TAG} > "${DOCKER_ID_FILE}"
-  - DOCKER_ID=$(cat ${DOCKER_ID_FILE})
-  - docker ps
-  - docker run ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash -c "ls"
-  - docker run ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash -c "hostname"
-  - docker run ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash -c "hostname"
-  - docker run ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash -c "hostname"
-  - docker run ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash -c "echo '$RANDOM' > test"
-  - docker ps
-  - docker cp ${DOCKER_ID}:/workdir/test /tmp/test
-  - docker ps
-  - cat /tmp/test
-  - docker run ${DOCKER_ID} /bin/bash -c "hostname"
-  - docker stop "${DOCKER_ID}"
+  - hostname
+  - ls
+  - make
+  #- DOCKER_ID_FILE=$(mktemp)
+  #- docker run -d ${DIST_NAME}-${DIST_VERS}:${TAG} /bin/bash > "${DOCKER_ID_FILE}"
+  #- DOCKER_ID=$(cat ${DOCKER_ID_FILE})
+  #- docker ps -a
+  #- docker cp ${DOCKER_ID}:/workdir/test /tmp/test
+  #- docker ps
+  #- cat /tmp/test
+  #- docker run ${DOCKER_ID} /bin/bash -c "hostname"
+  #- docker stop "${DOCKER_ID}"
